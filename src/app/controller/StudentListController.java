@@ -153,9 +153,19 @@ public class StudentListController {
     private TextField selectedCapstoneText;
     @FXML
     private Button editBtn;
+    @FXML
+    private ComboBox colCombobox;
+    @FXML
+    private TextField originValueText;
+    @FXML
+    private TextField newValueText;
+    @FXML
+    private Button allEditBtn;
 
     private ArrayList<StudentVO> studentList;
     private ObservableList<StudentTableRowDataModel> rowList = FXCollections.observableArrayList();
+    private ObservableList<String> comboboxElem = FXCollections.observableArrayList("이름", "입학년도",
+            "수강학점", "전공학점", "교양학점", "토익점수", "봉사시간", "캡스톤");
     private MovePage movePage = new MovePage();
 
     public StudentListController() {
@@ -185,6 +195,8 @@ public class StudentListController {
         pagination.setPageCount(studentList.size() / PAGE_NUM_ELEM + 1);
         pagination.currentPageIndexProperty().addListener(paginationChangeListener);
         studentTable.getSelectionModel().selectedItemProperty().addListener(tableSelectListener);
+
+        colCombobox.setItems(comboboxElem);
     }
 
     private void changePage() {
@@ -277,6 +289,45 @@ public class StudentListController {
         int result = studentDAO.update(student);
 
         System.out.println(result);
+    }
+
+    public void allEditBtnClick() {
+        String dbCol;
+        StudentDAO studentDAO = new StudentDAO();
+        String selectedCol = colCombobox.getValue().toString();
+        int findVal = Integer.parseInt(originValueText.getText());
+        int newVal = Integer.parseInt(newValueText.getText());
+
+        switch (selectedCol) {
+            case "이름":
+                dbCol = "name";
+                break;
+            case "입학년도":
+                dbCol = "year";
+                break;
+            case "수강학점":
+                dbCol = "tot_cred";
+                break;
+            case "전공학점":
+                dbCol = "major_cred";
+                break;
+            case "교양학점":
+                dbCol = "liberal_arts_cred";
+                break;
+            case "토익점수":
+                dbCol = "official_eng_grade";
+                break;
+            case "봉사시간":
+                dbCol = "volunteer_time";
+                break;
+            case "캡스톤":
+                dbCol = "capstone";
+                break;
+            default:
+                return;
+        }
+        int cnt = studentDAO.matchUpdate(dbCol, findVal, newVal);
+        System.out.println(cnt);
     }
 
     private void addRowList(ArrayList<StudentVO> studentList) {

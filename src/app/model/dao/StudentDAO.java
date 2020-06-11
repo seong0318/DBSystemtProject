@@ -78,6 +78,32 @@ public class StudentDAO extends ConnectDB {
         return result;
     }
 
+    public int matchUpdate(String col, int findVal, int newVal) {
+        Connection conn = null;
+        int result = 0;
+        String S5_1 = String.format("SELECT * FROM student WHERE %s = ?", col);
+        String S5_2 = String.format("UPDATE student SET %s = ? WHERE student_id = ?", col);
+        try {
+            conn = getConnection();
+            pstmt = conn.prepareStatement(S5_1);
+            conn.setAutoCommit(false);                      // T5
+            pstmt.setInt(1, findVal);
+            rs = pstmt.executeQuery();
+            pstmt = conn.prepareStatement(S5_2);
+            while (rs.next()) {
+                pstmt.setInt(1, newVal);
+                pstmt.setInt(2, rs.getInt("student_id"));
+                result += pstmt.executeUpdate();
+            }
+            conn.commit();                                  // T5
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            close(conn, stmt, rs);
+        }
+        return result;
+    }
+
     public boolean insert(StudentVO vo) {
         boolean result = false;
         Connection conn = null;

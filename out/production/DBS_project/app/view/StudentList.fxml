@@ -38,7 +38,7 @@
       <Button fx:id="searchBtn" layoutX="782.0" layoutY="40.0" mnemonicParsing="false" onMouseClicked="#searchBtnClick" text="검색" />
       <TextField fx:id="selectedIdText" alignment="TOP_CENTER" disable="true" layoutX="113.0" layoutY="515.0" prefHeight="29.0" prefWidth="75.0" promptText="학번" />
       <TextField fx:id="selectedNameText" alignment="TOP_CENTER" layoutX="188.0" layoutY="515.0" prefHeight="29.0" prefWidth="75.0" promptText="이름" />
-      <TextField fx:id="selectedDeptText" alignment="TOP_CENTER" layoutX="265.0" layoutY="515.0" prefHeight="29.0" prefWidth="75.0" promptText="학과" />
+      <TextField fx:id="selectedDeptText" alignment="TOP_CENTER" disable="true" layoutX="265.0" layoutY="515.0" prefHeight="29.0" prefWidth="75.0" promptText="학과" />
       <TextField fx:id="selectedYearText" alignment="TOP_CENTER" layoutX="340.0" layoutY="515.0" prefHeight="29.0" prefWidth="75.0" promptText="입학년도" />
       <TextField fx:id="selectedCredText" alignment="TOP_CENTER" layoutX="413.0" layoutY="515.0" prefHeight="29.0" prefWidth="75.0" promptText="수강학점" />
       <TextField fx:id="selectedMajorText" alignment="TOP_CENTER" layoutX="488.0" layoutY="515.0" prefHeight="29.0" prefWidth="75.0" promptText="전공학점" />
@@ -47,5 +47,9 @@
       <TextField fx:id="selectedVolunteerText" alignment="TOP_CENTER" layoutX="714.0" layoutY="515.0" prefHeight="29.0" prefWidth="75.0" promptText="봉사시간" />
       <TextField fx:id="selectedCapstoneText" alignment="TOP_CENTER" layoutX="789.0" layoutY="515.0" prefHeight="29.0" prefWidth="75.0" promptText="캡스톤" />
       <Button fx:id="editBtn" layoutX="880.0" layoutY="515.0" mnemonicParsing="false" onMouseClicked="#editBtnClick" text="수정" />
+      <TextField fx:id="newValueText" alignment="TOP_CENTER" layoutX="725.0" layoutY="557.0" prefHeight="29.0" prefWidth="94.0" promptText="새로운 값" />
+      <Button fx:id="allEditBtn" layoutX="830.0" layoutY="557.0" mnemonicParsing="false" onMouseClicked="#allEditBtnClick" text="모두 바꾸기" />
+      <TextField fx:id="originValueText" alignment="TOP_CENTER" layoutX="621.0" layoutY="557.0" prefHeight="29.0" prefWidth="94.0" promptText="기존값" />
+      <ComboBox fx:id="colCombobox" layoutX="488.0" layoutY="557.0" prefHeight="29.0" prefWidth="120.0" promptText="바꿀 열" />
    </children>
 </AnchorPane>
