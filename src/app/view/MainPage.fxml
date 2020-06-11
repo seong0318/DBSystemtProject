@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.controller.MainPageController">
+   <children>
+      <Text layoutX="322.0" layoutY="165.0" strokeType="OUTSIDE" strokeWidth="0.0" text="메인 페이지">
+         <font>
+            <Font size="48.0" />
+         </font>
+      </Text>
+      <Button fx:id="studentlist" layoutX="254.0" layoutY="278.0" mnemonicParsing="false" onMouseClicked="#studentListBtnClick" text="학생 목록">
+         <font>
+            <Font size="24.0" />
+         </font></Button>
+      <Button fx:id="sectionlist" layoutX="509.0" layoutY="278.0" mnemonicParsing="false" onMouseClicked="#sectionListBtnClick" text="강의 목록">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Button>
+   </children>
+</AnchorPane>
