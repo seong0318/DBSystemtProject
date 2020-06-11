@@ -36,7 +36,7 @@
       <TextField fx:id="nameText" alignment="TOP_CENTER" layoutX="462.0" layoutY="40.0" prefHeight="29.0" prefWidth="101.0" promptText="이름" />
       <TextField fx:id="deptText" alignment="TOP_CENTER" layoutX="575.0" layoutY="40.0" prefHeight="29.0" prefWidth="101.0" promptText="학과" />
       <Button fx:id="searchBtn" layoutX="782.0" layoutY="40.0" mnemonicParsing="false" onMouseClicked="#searchBtnClick" text="검색" />
-      <TextField fx:id="selectedIdText" alignment="TOP_CENTER" layoutX="113.0" layoutY="515.0" prefHeight="29.0" prefWidth="75.0" promptText="학번" />
+      <TextField fx:id="selectedIdText" alignment="TOP_CENTER" disable="true" layoutX="113.0" layoutY="515.0" prefHeight="29.0" prefWidth="75.0" promptText="학번" />
       <TextField fx:id="selectedNameText" alignment="TOP_CENTER" layoutX="188.0" layoutY="515.0" prefHeight="29.0" prefWidth="75.0" promptText="이름" />
       <TextField fx:id="selectedDeptText" alignment="TOP_CENTER" layoutX="265.0" layoutY="515.0" prefHeight="29.0" prefWidth="75.0" promptText="학과" />
       <TextField fx:id="selectedYearText" alignment="TOP_CENTER" layoutX="340.0" layoutY="515.0" prefHeight="29.0" prefWidth="75.0" promptText="입학년도" />
@@ -46,6 +46,6 @@
       <TextField fx:id="selectedEngText" alignment="TOP_CENTER" layoutX="639.0" layoutY="515.0" prefHeight="29.0" prefWidth="75.0" promptText="토익점수" />
       <TextField fx:id="selectedVolunteerText" alignment="TOP_CENTER" layoutX="714.0" layoutY="515.0" prefHeight="29.0" prefWidth="75.0" promptText="봉사시간" />
       <TextField fx:id="selectedCapstoneText" alignment="TOP_CENTER" layoutX="789.0" layoutY="515.0" prefHeight="29.0" prefWidth="75.0" promptText="캡스톤" />
-      <Button fx:id="editBtn" layoutX="454.0" layoutY="557.0" mnemonicParsing="false" onMouseClicked="#editBtnClick" text="수정" />
+      <Button fx:id="editBtn" layoutX="880.0" layoutY="515.0" mnemonicParsing="false" onMouseClicked="#editBtnClick" text="수정" />
    </children>
 </AnchorPane>

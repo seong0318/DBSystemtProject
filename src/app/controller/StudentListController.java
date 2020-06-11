@@ -194,6 +194,7 @@ public class StudentListController {
 
     private void selectRow() {
         StudentTableRowDataModel model = studentTable.getSelectionModel().getSelectedItem();
+        if (model == null) return;
         selectedIdText.setText(model.idProperty().getValue().toString());
         selectedNameText.setText(model.nameProperty().getValue());
         selectedDeptText.setText(model.deptProperty().getValue());
@@ -249,7 +250,33 @@ public class StudentListController {
     }
 
     public void editBtnClick(javafx.scene.input.MouseEvent mouseEvent) {
+        StudentVO student = new StudentVO();
+        StudentDAO studentDAO = new StudentDAO();
+        int id = Integer.parseInt(selectedIdText.getText());
+        String name = selectedNameText.getText();
+        String dept = selectedDeptText.getText();
+        int year = Integer.parseInt(selectedYearText.getText());
+        int totCred = Integer.parseInt(selectedCredText.getText());
+        int majorCred = Integer.parseInt(selectedMajorText.getText());
+        int liberalCred = Integer.parseInt(selectedLiberalText.getText());
+        int eng = Integer.parseInt(selectedEngText.getText());
+        int volunteer = Integer.parseInt(selectedVolunteerText.getText());
+        int capstone = Integer.parseInt(selectedCapstoneText.getText());
 
+        student.setStudentId(id);
+        student.setName(name);
+        student.setYear(year);
+        student.setDeptName(dept);
+        student.setTotCred(totCred);
+        student.setMajorCred(majorCred);
+        student.setLiberalArtsCred(liberalCred);
+        student.setOfficialEngGrade(eng);
+        student.setVolunteerTime(volunteer);
+        student.setCapstone(capstone);
+
+        int result = studentDAO.update(student);
+
+        System.out.println(result);
     }
 
     private void addRowList(ArrayList<StudentVO> studentList) {

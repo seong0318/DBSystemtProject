@@ -51,6 +51,33 @@ public class StudentDAO extends ConnectDB {
         return null;
     }
 
+    public int update(StudentVO student) {
+        Connection conn = null;
+        int result = 0;
+        String sql = "UPDATE student SET name = ?, dept_name = ?, year = ?, tot_cred = ?, major_cred = ?, " +
+                "liberal_arts_cred = ?, official_eng_grade = ?, volunteer_time = ?, capstone = ? WHERE student_id = ?";
+        try {
+            conn = getConnection();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, student.getName());
+            pstmt.setString(2, student.getDeptName());
+            pstmt.setInt(3, student.getYear());
+            pstmt.setInt(4, student.getTotCred());
+            pstmt.setInt(5, student.getMajorCred());
+            pstmt.setInt(6, student.getLiberalArtsCred());
+            pstmt.setInt(7, student.getOfficialEngGrade());
+            pstmt.setInt(8, student.getVolunteerTime());
+            pstmt.setInt(9, student.getCapstone());
+            pstmt.setInt(10, student.getStudentId());
+            result = pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            close(conn, stmt, rs);
+        }
+        return result;
+    }
+
     public boolean insert(StudentVO vo) {
         boolean result = false;
         Connection conn = null;

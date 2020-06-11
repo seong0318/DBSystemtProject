@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/src/app/controller/StudentListController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/controller/StudentListController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/model/dao/StudentDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/model/dao/StudentDAO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/view/StudentList.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/view/StudentList.fxml" afterDir="false" />
     </list>
     <ignored path="JavaFxApplication.iws" />
@@ -135,8 +136,8 @@
           <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/app/controller/StudentListController.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="165">
-                  <caret line="199" selection-start-line="199" selection-end-line="199" />
+                <state relative-caret-position="59">
+                  <caret line="196" column="73" selection-start-line="196" selection-start-column="73" selection-end-line="196" selection-end-column="73" />
                   <folding>
                     <element signature="imports" expanded="true" />
                     <element signature="e#1803#1804#0" expanded="true" />
@@ -151,8 +152,8 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/app/model/dao/StudentDAO.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="1203">
-                  <caret line="99" column="62" lean-forward="true" selection-start-line="99" selection-start-column="62" selection-end-line="99" selection-end-column="62" />
+                <state relative-caret-position="286">
+                  <caret line="70" column="51" selection-start-line="70" selection-start-column="51" selection-end-line="70" selection-end-column="51" />
                   <folding>
                     <element signature="imports" expanded="true" />
                     <element signature="e#1086#1097#0" expanded="true" />
@@ -175,9 +176,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>scene</find>
-      <find>pagination</find>
-      <find>changeLi</find>
       <find>all</find>
       <find>getP</find>
       <find>change</find>
@@ -205,6 +203,9 @@
       <find>set</find>
       <find>Page_</find>
       <find>Page_Num</find>
+      <find>studentVo</find>
+      <find>Dao</find>
+      <find>DAO</find>
     </findStrings>
   </component>
   <component name="FindManager">
@@ -239,11 +240,11 @@
         <option value="$PROJECT_DIR$/src/app/Main.java" />
         <option value="$PROJECT_DIR$/src/app/controller/MainPageController.java" />
         <option value="$PROJECT_DIR$/src/app/model/dao/ConnectDB.java" />
-        <option value="$PROJECT_DIR$/src/app/model/dao/StudentDAO.java" />
         <option value="$PROJECT_DIR$/src/app/model/vo/SectionVO.java" />
         <option value="$PROJECT_DIR$/src/app/model/vo/Paginate.java" />
         <option value="$PROJECT_DIR$/src/app/controller/SectionListController.java" />
         <option value="$PROJECT_DIR$/src/app/model/dao/SectionDAO.java" />
+        <option value="$PROJECT_DIR$/src/app/model/dao/StudentDAO.java" />
         <option value="$PROJECT_DIR$/src/app/controller/StudentListController.java" />
       </list>
     </option>
@@ -675,17 +676,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/model/dao/StudentDAO.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1203">
-          <caret line="99" column="62" lean-forward="true" selection-start-line="99" selection-start-column="62" selection-end-line="99" selection-end-column="62" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#1086#1097#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/app/model/dao/SectionDAO.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="82">
@@ -730,10 +720,21 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/model/dao/StudentDAO.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="286">
+          <caret line="70" column="51" selection-start-line="70" selection-start-column="51" selection-end-line="70" selection-end-column="51" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1086#1097#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/app/controller/StudentListController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="199" selection-start-line="199" selection-end-line="199" />
+        <state relative-caret-position="59">
+          <caret line="196" column="73" selection-start-line="196" selection-start-column="73" selection-end-line="196" selection-end-column="73" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#1803#1804#0" expanded="true" />
