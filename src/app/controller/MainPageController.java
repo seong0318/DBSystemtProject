@@ -2,7 +2,6 @@ package app.controller;
 
 import app.Main;
 import app.controller.util.MovePage;
-import app.model.service.UserInfoService;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
@@ -16,14 +15,12 @@ public class MainPageController {
 
     private MovePage movePage = new MovePage();
     private Main mainApp;
-    private UserInfoService uis;
 
     public MainPageController() {
     }
 
     @FXML
     private void initialize() {
-        uis = new UserInfoService();
     }
 
     public void setMainApp(Main mainApp) {

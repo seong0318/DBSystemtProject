@@ -9,7 +9,7 @@
 
 <AnchorPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.controller.StudentListController">
    <children>
-      <Button fx:id="moveMainPageBtn" layoutX="94.0" layoutY="70.0" mnemonicParsing="false" onMouseClicked="#moveMainPageBtnClick" text="메인 페이지">
+      <Button fx:id="moveMainPageBtn" layoutX="40.0" layoutY="38.0" mnemonicParsing="false" onMouseClicked="#moveMainPageBtnClick" text="메인 페이지">
          <font>
             <Font size="18.0" />
          </font>
@@ -31,5 +31,10 @@
       <Pagination fx:id="pagination" layoutX="220.0" layoutY="534.0" prefHeight="0.0" prefWidth="392.0" />
       <TextField fx:id="selectPage" layoutX="583.0" layoutY="539.0" prefHeight="20.0" prefWidth="50.0" />
       <Button fx:id="movePageBtn" layoutX="639.0" layoutY="539.0" mnemonicParsing="false" onMouseClicked="#movePageBtnClick" text="Go" />
+      <TextField fx:id="idText" alignment="TOP_CENTER" layoutX="356.0" layoutY="40.0" prefHeight="29.0" prefWidth="94.0" promptText="학번" />
+      <TextField fx:id="yearText" alignment="TOP_CENTER" layoutX="688.0" layoutY="40.0" prefHeight="29.0" prefWidth="79.0" promptText="입학년도" />
+      <TextField fx:id="nameText" alignment="TOP_CENTER" layoutX="462.0" layoutY="40.0" prefHeight="29.0" prefWidth="101.0" promptText="이름" />
+      <TextField fx:id="deptText" alignment="TOP_CENTER" layoutX="575.0" layoutY="40.0" prefHeight="29.0" prefWidth="101.0" promptText="학과" />
+      <Button fx:id="searchBtn" layoutX="782.0" layoutY="40.0" mnemonicParsing="false" onMouseClicked="#searchBtnClick" text="검색" />
    </children>
 </AnchorPane>

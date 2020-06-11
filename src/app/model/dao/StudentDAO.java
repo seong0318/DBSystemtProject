@@ -2,60 +2,36 @@ package app.model.dao;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 
-import app.model.SecretInfo;
 import app.model.vo.StudentVO;
+import javafx.util.Pair;
 
-public class StudentDAO {
-    private String dbuser = SecretInfo.username;
-    private String dbpw = SecretInfo.password;
-
+public class StudentDAO extends ConnectDB {
     private Statement stmt;
     private ResultSet rs;
     private PreparedStatement pstmt;
 
-    private Connection getConnection() throws SQLException {
-        Connection conn = null;
+    private StudentVO setStudentVO(ResultSet rs) throws SQLException {
+        StudentVO student = new StudentVO();
+        student.setStudentId(rs.getInt("student_id"));
+        student.setName(rs.getString("name"));
+        student.setDeptName(rs.getString("dept_name"));
+        student.setYear(rs.getInt("year"));
+        student.setTotCred(rs.getInt("tot_cred"));
+        student.setMajorCred(rs.getInt("major_cred"));
+        student.setLiberalArtsCred(rs.getInt("liberal_arts_cred"));
+        student.setOfficialEngGrade(rs.getInt("official_eng_grade"));
+        student.setVolunteerTime(rs.getInt("volunteer_time"));
+        student.setCapstone(rs.getInt("capstone"));
 
-        try {
-//            Class.forName("com.mysql.jdbc.Driver");
-            String driver = "com.mysql.jdbc.Driver";
-            String url = "jdbc:mysql://localhost/db_system_project?serverTimezone=UTC&allowPublicKeyRetrieval=true&useSSL=false";
-            Class.forName(driver);
-            conn = DriverManager.getConnection(url, dbuser, dbpw);
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println(" 드라이버 로딩 실패 ");
-        }
-
-        return conn;
-    }
-
-    private void close(Connection con, Statement stmt, ResultSet rs) {
-        if (rs != null) {
-            try {
-                rs.close();
-            } catch (SQLException ignored) {
-            }
-        }
-        if (stmt != null) {
-            try {
-                stmt.close();
-            } catch (SQLException ignored) {
-            }
-        }
-        if (con != null) {
-            try {
-                con.close();
-            } catch (SQLException ignored) {
-            }
-        }
+        return student;
     }
 
     public ArrayList<StudentVO> all() {
         ArrayList<StudentVO> list = new ArrayList<StudentVO>();
         Connection conn = null;
-        String sql = "select * from student";
+        String sql = "SELECT * FROM student";
 
         try {
             conn = getConnection();
@@ -63,17 +39,7 @@ public class StudentDAO {
             rs = stmt.executeQuery(sql);
 
             while (rs.next()) {
-                StudentVO student = new StudentVO();
-                student.setStudentId(rs.getInt("student_id"));
-                student.setName(rs.getString("name"));
-                student.setDeptName(rs.getString("dept_name"));
-                student.setYear(rs.getInt("year"));
-                student.setTotCred(rs.getInt("tot_cred"));
-                student.setMajorCred(rs.getInt("major_cred"));
-                student.setLiberalArtsCred(rs.getInt("liberal_arts_cred"));
-                student.setOfficialEngGrade(rs.getInt("official_eng_grade"));
-                student.setVolunteerTime(rs.getInt("volunteer_time"));
-                student.setCapstone(rs.getInt("capstone"));
+                StudentVO student = setStudentVO(rs);
                 list.add((student));
             }
             return list;
@@ -91,24 +57,15 @@ public class StudentDAO {
 
         try {
             conn = getConnection();
-            String sql = "select * from student limit ?, ?";
+            String sql = "SELECT * FROM student LIMIT ?, ?";
             pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1, start);
             pstmt.setInt(2, end);
             rs = pstmt.executeQuery();
 
             while (rs.next()) {
-                StudentVO student = new StudentVO();
-                student.setStudentId(rs.getInt("student_id"));
-                student.setName(rs.getString("name"));
-                student.setDeptName(rs.getString("dept_name"));
-                student.setYear(rs.getInt("year"));
-                student.setTotCred(rs.getInt("tot_cred"));
-                student.setMajorCred(rs.getInt("major_cred"));
-                student.setLiberalArtsCred(rs.getInt("liberal_arts_cred"));
-                student.setOfficialEngGrade(rs.getInt("official_eng_grade"));
-                student.setVolunteerTime(rs.getInt("volunteer_time"));
-                student.setCapstone(rs.getInt("capstone"));
+                StudentVO student = setStudentVO(rs);
+                list.add((student));
                 list.add((student));
             }
             return list;
@@ -129,7 +86,7 @@ public class StudentDAO {
 
             // Column
             // PK , name, dept_name, year, tot_cred, major_cred, liberal_arts_cred, official_eng_grade, voluteer_time, capstone
-            String sql = "INSERT INTO user VALUES (null, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+            String sql = "INSERT INTO student VALUES (null, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
             pstmt = conn.prepareStatement(sql);
 
             pstmt.setString(1, vo.getName());
@@ -162,17 +119,17 @@ public class StudentDAO {
         return result;
     }
 
-    public int count(){
+    public int count() {
         int cnt = -1;
         Connection conn = null;
-        String sql = "select count(*) from student";
+        String sql = "SELECT COUNT(*) FROM student";
 
         try {
             conn = getConnection();
             stmt = conn.createStatement();
             rs = stmt.executeQuery(sql);
 
-            if (rs.next()){
+            if (rs.next()) {
                 cnt = rs.getInt(1);
             }
             return cnt;
@@ -182,5 +139,39 @@ public class StudentDAO {
             close(conn, stmt, rs);
         }
         return cnt;
+    }
+
+    public ArrayList<StudentVO> get(List<List<String>> condition) {
+        ArrayList<StudentVO> list = new ArrayList<StudentVO>();
+        Connection conn = null;
+        String sql;
+        StringBuilder sb = new StringBuilder("SELECT * FROM student WHERE ");
+
+        for (List<String> elem : condition) {
+            for (String el : elem) {
+                sb.append(el).append(" ");
+            }
+            sb.append("AND ");
+        }
+        sql = sb.substring(0, sb.length() - 5);
+        System.out.println(sql);
+
+        try {
+            conn = getConnection();
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery(sql);
+
+            while (rs.next()) {
+                StudentVO student = setStudentVO(rs);
+                list.add((student));
+                list.add((student));
+            }
+            return list;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            close(conn, stmt, rs);
+        }
+        return null;
     }
 }

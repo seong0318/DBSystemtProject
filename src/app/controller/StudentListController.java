@@ -12,9 +12,12 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.util.Pair;
 
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 class TableRowDataModel {
     private IntegerProperty id;
@@ -117,6 +120,16 @@ public class StudentListController {
     private TextField selectPage;
     @FXML
     private Button movePageBtn;
+    @FXML
+    private TextField idText;
+    @FXML
+    private TextField nameText;
+    @FXML
+    private TextField deptText;
+    @FXML
+    private TextField yearText;
+    @FXML
+    private Button searchBtn;
 
     private ObservableList<TableRowDataModel> rowList = FXCollections.observableArrayList();
     private MovePage movePage = new MovePage();
@@ -162,6 +175,40 @@ public class StudentListController {
         int numPage = Integer.parseInt(selectPage.getText());
         updateRowList(numPage);
         pagination.setCurrentPageIndex(numPage - 1);
+    }
+
+    public void searchBtnClick(javafx.scene.input.MouseEvent mouseEvent) {
+        StudentDAO student = new StudentDAO();
+        String studentId = idText.getText();
+        String name = nameText.getText();
+        String dept = deptText.getText();
+        String year = yearText.getText();
+        List<String> condition1;
+        List<String> condition2;
+        List<String> condition3;
+        List<String> condition4;
+
+        if (studentId.trim().isEmpty()) condition1 = new ArrayList<>(Arrays.asList("student_id", "is not", "null"));
+        else condition1 = new ArrayList<>(Arrays.asList("student_id", "=", studentId));
+
+        if (name.trim().isEmpty()) condition2 = new ArrayList<>(Arrays.asList("name", "is not", "null"));
+        else condition2 = new ArrayList<>(Arrays.asList("name", "like", "\"%" + name + "%\""));
+
+        if (dept.trim().isEmpty()) condition3 = new ArrayList<>(Arrays.asList("dept_name", "is not", "null"));
+        else condition3 = new ArrayList<>(Arrays.asList("dept_name", "like", "\"%" + dept + "%\""));
+
+        if (year.trim().isEmpty()) condition4 = new ArrayList<>(Arrays.asList("year", "is not", "null"));
+        else condition4 = new ArrayList<>(Arrays.asList("year", "=", dept));
+
+        List<List<String>> conditionList = new ArrayList<>();
+        conditionList.add(condition1);
+        conditionList.add(condition2);
+        conditionList.add(condition3);
+        conditionList.add(condition4);
+        ArrayList<StudentVO> studentList = student.get(conditionList);
+
+        rowList.clear();
+        addRowList(studentList);
     }
 
     private void addRowList(ArrayList<StudentVO> studentList) {
