@@ -14,6 +14,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 class SectionTableRowDataModel {
     private StringProperty dept;
@@ -42,43 +44,43 @@ class SectionTableRowDataModel {
         this.location = location;
     }
 
-    public StringProperty deptProperty() {
+    StringProperty deptProperty() {
         return dept;
     }
 
-    public StringProperty titleProperty() {
+    StringProperty titleProperty() {
         return title;
     }
 
-    public IntegerProperty majorProperty() {
+    IntegerProperty majorProperty() {
         return major;
     }
 
-    public IntegerProperty credProperty() {
+    IntegerProperty credProperty() {
         return cred;
     }
 
-    public IntegerProperty yearProperty() {
+    IntegerProperty yearProperty() {
         return year;
     }
 
-    public StringProperty semesterProperty() {
+    StringProperty semesterProperty() {
         return semester;
     }
 
-    public IntegerProperty dayProperty() {
+    IntegerProperty dayProperty() {
         return day;
     }
 
-    public StringProperty startProperty() {
+    StringProperty startProperty() {
         return start;
     }
 
-    public StringProperty endProperty() {
+    StringProperty endProperty() {
         return end;
     }
 
-    public StringProperty locationProperty() {
+    StringProperty locationProperty() {
         return location;
     }
 }
@@ -117,7 +119,7 @@ public class SectionListController {
     @FXML
     private TextField deptText;
     @FXML
-    private TextField nameText;
+    private TextField titleText;
     @FXML
     private TextField yearText;
     @FXML
@@ -153,9 +155,10 @@ public class SectionListController {
         locationCol.setCellValueFactory(cellData -> cellData.getValue().locationProperty());
 
         sectionTable.setItems(rowList);
+        updateRowList(0);
 
         ChangeListener<Number> paginationChangeListener = (observable, oldValue, newValue) -> changePage();
-        pagination.setPageCount(sectionList.size() / PAGE_NUM_ELEM);
+        pagination.setPageCount(sectionList.size() / PAGE_NUM_ELEM + 1);
         pagination.currentPageIndexProperty().addListener(paginationChangeListener);
     }
 
@@ -175,15 +178,51 @@ public class SectionListController {
     }
 
     public void searchBtnClick(javafx.scene.input.MouseEvent mouseEvent) {
+        SectionDAO section = new SectionDAO();
+        String dept = deptText.getText();
+        String title = titleText.getText();
+        String year = yearText.getText();
+        String cred = credText.getText();
+        List<String> condition;
+        List<List<String>> conditionList = new ArrayList<>();
 
+        if (!dept.trim().isEmpty()) {
+            condition = new ArrayList<>(Arrays.asList("dept_name", "like", "\"%" + dept + "%\""));
+            conditionList.add(condition);
+        }
+        if (!title.trim().isEmpty()) {
+            condition = new ArrayList<>(Arrays.asList("title", "like", "\"%" + title + "%\""));
+            conditionList.add(condition);
+        }
+        if (!year.trim().isEmpty()) {
+            condition = new ArrayList<>(Arrays.asList("year", "=", year));
+            conditionList.add(condition);
+        }
+        if (!cred.trim().isEmpty()) {
+            condition = new ArrayList<>(Arrays.asList("credit", "=", cred));
+            conditionList.add(condition);
+        }
+        if (springCheck.isSelected()) {
+            condition = new ArrayList<>(Arrays.asList("semester", "=", "\"spring\""));
+            conditionList.add(condition);
+        }
+        if (autumnCheck.isSelected()) {
+            condition = new ArrayList<>(Arrays.asList("semester", "=", "\"autumn\""));
+            conditionList.add(condition);
+        }
+
+        sectionList = section.get(conditionList);
+        pagination.setPageCount(sectionList.size() / PAGE_NUM_ELEM + 1);
+        pagination.setCurrentPageIndex(0);
+        updateRowList(0);
     }
 
     public void springCheckClick(javafx.scene.input.MouseEvent mouseEvent) {
-        autumnCheck.setIndeterminate(false);
+        autumnCheck.setSelected(false);
     }
 
     public void autumnCheckClick(javafx.scene.input.MouseEvent mouseEvent) {
-        springCheck.setIndeterminate(false);
+        springCheck.setSelected(false);
     }
 
     private void addRowList(ArrayList<SectionVO> sectionList) {

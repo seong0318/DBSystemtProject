@@ -33,8 +33,8 @@ class StudentTableRowDataModel {
     private IntegerProperty capstone;
 
     StudentTableRowDataModel(IntegerProperty id, StringProperty name, StringProperty dept, IntegerProperty year,
-                      IntegerProperty totCred, IntegerProperty majorCred, IntegerProperty liberalCred,
-                      IntegerProperty engGrade, IntegerProperty volunteerTime, IntegerProperty capstone) {
+                             IntegerProperty totCred, IntegerProperty majorCred, IntegerProperty liberalCred,
+                             IntegerProperty engGrade, IntegerProperty volunteerTime, IntegerProperty capstone) {
         this.id = id;
         this.name = name;
         this.dept = dept;
@@ -156,9 +156,10 @@ public class StudentListController {
         capstoneCol.setCellValueFactory(cellData -> cellData.getValue().capstoneProperty().asObject());
 
         studentTable.setItems(rowList);
+        updateRowList(0);
 
         ChangeListener<Number> paginationChangeListener = (observable, oldValue, newValue) -> changePage();
-        pagination.setPageCount(studentList.size() / PAGE_NUM_ELEM);
+        pagination.setPageCount(studentList.size() / PAGE_NUM_ELEM + 1);
         pagination.currentPageIndexProperty().addListener(paginationChangeListener);
     }
 
@@ -183,35 +184,30 @@ public class StudentListController {
         String name = nameText.getText();
         String dept = deptText.getText();
         String year = yearText.getText();
-        List<String> condition1;
-        List<String> condition2;
-        List<String> condition3;
-        List<String> condition4;
-
-        if (studentId.trim().isEmpty()) condition1 = new ArrayList<>(Arrays.asList("student_id", "is not", "null"));
-        else condition1 = new ArrayList<>(Arrays.asList("student_id", "=", studentId));
-
-        if (name.trim().isEmpty()) condition2 = new ArrayList<>(Arrays.asList("name", "is not", "null"));
-        else condition2 = new ArrayList<>(Arrays.asList("name", "like", "\"%" + name + "%\""));
-
-        if (dept.trim().isEmpty()) condition3 = new ArrayList<>(Arrays.asList("dept_name", "is not", "null"));
-        else condition3 = new ArrayList<>(Arrays.asList("dept_name", "like", "\"%" + dept + "%\""));
-
-        if (year.trim().isEmpty()) condition4 = new ArrayList<>(Arrays.asList("year", "is not", "null"));
-        else condition4 = new ArrayList<>(Arrays.asList("year", "=", year));
-
+        List<String> condition;
         List<List<String>> conditionList = new ArrayList<>();
-        conditionList.add(condition1);
-        conditionList.add(condition2);
-        conditionList.add(condition3);
-        conditionList.add(condition4);
-        studentList = student.get(conditionList);   // studentList 교체
 
-//        rowList.clear();
-//        addRowList(studentList);
-        rowList.clear();
-        addRowList(studentList);
-        pagination.setPageCount(studentList.size() / PAGE_NUM_ELEM);
+        if (!studentId.trim().isEmpty()) {
+            condition = new ArrayList<>(Arrays.asList("student_id", "=", studentId));
+            conditionList.add(condition);
+        }
+        if (!name.trim().isEmpty()) {
+            condition = new ArrayList<>(Arrays.asList("name", "like", "\"%" + name + "%\""));
+            conditionList.add(condition);
+        }
+        if (!dept.trim().isEmpty()) {
+            condition = new ArrayList<>(Arrays.asList("dept_name", "like", "\"%" + dept + "%\""));
+            conditionList.add(condition);
+        }
+        if (!year.trim().isEmpty()) {
+            condition = new ArrayList<>(Arrays.asList("year", "=", year));
+            conditionList.add(condition);
+        }
+
+        studentList = student.get(conditionList);
+        pagination.setPageCount(studentList.size() / PAGE_NUM_ELEM + 1);
+        pagination.setCurrentPageIndex(0);
+        updateRowList(0);
     }
 
     private void addRowList(ArrayList<StudentVO> studentList) {

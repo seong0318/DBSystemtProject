@@ -59,7 +59,7 @@ public class SectionDAO extends ConnectDB {
         ArrayList<SectionVO> list = new ArrayList<>();
         Connection conn = null;
         String sql;
-        StringBuilder sb = new StringBuilder("SELECT * FROM section NATURAL JOIN timeslot NATURAL JOIN course ");
+        StringBuilder sb = new StringBuilder("SELECT * FROM section NATURAL JOIN timeslot NATURAL JOIN course WHERE ");
 
         for (List<String> elem : condition) {
             for (String el : elem) {

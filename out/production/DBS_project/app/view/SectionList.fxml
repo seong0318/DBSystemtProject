@@ -11,7 +11,7 @@
    <children>
       <Button fx:id="searchBtn" layoutX="780.0" layoutY="40.0" mnemonicParsing="false" onMouseClicked="#searchBtnClick" text="검색" />
       <TextField fx:id="yearText" alignment="TOP_CENTER" layoutX="595.0" layoutY="40.0" prefHeight="29.0" prefWidth="79.0" promptText="연도" />
-      <TextField fx:id="nameText" alignment="TOP_CENTER" layoutX="480.0" layoutY="40.0" prefHeight="29.0" prefWidth="101.0" promptText="강의명" />
+      <TextField fx:id="titleText" alignment="TOP_CENTER" layoutX="480.0" layoutY="40.0" prefHeight="29.0" prefWidth="101.0" promptText="강의명" />
       <TextField fx:id="credText" alignment="TOP_CENTER" layoutX="686.0" layoutY="40.0" prefHeight="29.0" prefWidth="79.0" promptText="학점" />
       <TextField fx:id="deptText" alignment="TOP_CENTER" layoutX="374.0" layoutY="40.0" prefHeight="29.0" prefWidth="94.0" promptText="학과" />
       <Button fx:id="movePageBtn" layoutX="637.0" layoutY="539.0" mnemonicParsing="false" onMouseClicked="#movePageBtnClick" text="Go" />
