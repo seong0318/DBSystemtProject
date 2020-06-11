@@ -88,6 +88,8 @@ class TableRowDataModel {
 }
 
 public class StudentListController {
+    private int PAGE_NUM_ELEM = 1000;
+
     @FXML
     private Button moveMainPageBtn;
     @FXML
@@ -115,18 +117,44 @@ public class StudentListController {
     @FXML
     private Pagination pagination;
 
-    private ObservableList<TableRowDataModel> rowList;
-
-
-    private final ChangeListener<Number> paginationChangeListener = ((observable, oldValue, newValue) -> changePage());
-
+    private ObservableList<TableRowDataModel> rowList = FXCollections.observableArrayList();
+    ;
     private MovePage movePage = new MovePage();
+    private int numStudent;
 
     public StudentListController() {
         StudentDAO student = new StudentDAO();
-        ArrayList<StudentVO> studentList = student.all();
+        ArrayList<StudentVO> studentList = student.getPage(0, PAGE_NUM_ELEM);
+        addRowList(studentList);
+        numStudent = student.count();
+        System.out.println(numStudent);
+    }
 
-        rowList = FXCollections.observableArrayList();
+    @FXML
+    public void initialize() {
+        idCol.setCellValueFactory(cellData -> cellData.getValue().idProperty().asObject());
+        nameCol.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
+        deptCol.setCellValueFactory(cellData -> cellData.getValue().deptProperty());
+        yearCol.setCellValueFactory(cellData -> cellData.getValue().yearProperty().asObject());
+        totCredCol.setCellValueFactory(cellData -> cellData.getValue().totCredProperty().asObject());
+        majorCredCol.setCellValueFactory(cellData -> cellData.getValue().majorCredProperty().asObject());
+        liberalCredCol.setCellValueFactory(cellData -> cellData.getValue().liberalCredProperty().asObject());
+        engGradeCol.setCellValueFactory(cellData -> cellData.getValue().engGradeProperty().asObject());
+        volunteerCol.setCellValueFactory(cellData -> cellData.getValue().volunteerTimeProperty().asObject());
+        capstoneCol.setCellValueFactory(cellData -> cellData.getValue().capstoneProperty().asObject());
+
+        studentTable.setItems(rowList);
+
+        ChangeListener<Number> paginationChangeListener = (observable, oldValue, newValue) -> changePage();
+        pagination.setPageCount(numStudent / PAGE_NUM_ELEM);
+        pagination.currentPageIndexProperty().addListener(paginationChangeListener);
+    }
+
+    public void moveMainPageBtnClick(javafx.scene.input.MouseEvent mouseEvent) {
+        movePage.movePageBtnAction(moveMainPageBtn, "/app/view/MainPage.fxml");
+    }
+
+    private void addRowList(ArrayList<StudentVO> studentList) {
         for (StudentVO elem : studentList) {
             TableRowDataModel row;
             IntegerProperty id = new SimpleIntegerProperty(elem.getStudentId());
@@ -144,27 +172,13 @@ public class StudentListController {
         }
     }
 
-    @FXML
-    public void initialize() {
-        idCol.setCellValueFactory(cellData -> cellData.getValue().idProperty().asObject());
-        nameCol.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
-        deptCol.setCellValueFactory(cellData -> cellData.getValue().deptProperty());
-        yearCol.setCellValueFactory(cellData -> cellData.getValue().yearProperty().asObject());
-        totCredCol.setCellValueFactory(cellData -> cellData.getValue().totCredProperty().asObject());
-        majorCredCol.setCellValueFactory(cellData -> cellData.getValue().majorCredProperty().asObject());
-        liberalCredCol.setCellValueFactory(cellData -> cellData.getValue().liberalCredProperty().asObject());
-        engGradeCol.setCellValueFactory(cellData -> cellData.getValue().engGradeProperty().asObject());
-        volunteerCol.setCellValueFactory(cellData -> cellData.getValue().volunteerTimeProperty().asObject());
-        capstoneCol.setCellValueFactory(cellData -> cellData.getValue().capstoneProperty().asObject());
-
-        studentTable.setItems(rowList);
-    }
-
-    public void moveMainPageBtnClick(javafx.scene.input.MouseEvent mouseEvent) {
-        movePage.movePageBtnAction(moveMainPageBtn, "/app/view/MainPage.fxml");
-    }
-
     private void changePage() {
-        System.out.println("fffffffffff");
+        System.out.println(pagination.getCurrentPageIndex());
+        int currentPageIndex = pagination.getCurrentPageIndex();
+        StudentDAO student = new StudentDAO();
+        ArrayList<StudentVO> studentList = student.getPage(currentPageIndex * PAGE_NUM_ELEM, PAGE_NUM_ELEM);
+
+        rowList.clear();
+        addRowList(studentList);
     }
 }

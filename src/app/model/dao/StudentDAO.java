@@ -12,6 +12,7 @@ public class StudentDAO {
 
     private Statement stmt;
     private ResultSet rs;
+    private PreparedStatement pstmt;
 
     private Connection getConnection() throws SQLException {
         Connection conn = null;
@@ -84,10 +85,44 @@ public class StudentDAO {
         return null;
     }
 
+    public ArrayList<StudentVO> getPage(int start, int end) {
+        ArrayList<StudentVO> list = new ArrayList<StudentVO>();
+        Connection conn = null;
+
+        try {
+            conn = getConnection();
+            String sql = "select * from student limit ?, ?";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, start);
+            pstmt.setInt(2, end);
+            rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                StudentVO student = new StudentVO();
+                student.setStudentId(rs.getInt("student_id"));
+                student.setName(rs.getString("name"));
+                student.setDeptName(rs.getString("dept_name"));
+                student.setYear(rs.getInt("year"));
+                student.setTotCred(rs.getInt("tot_cred"));
+                student.setMajorCred(rs.getInt("major_cred"));
+                student.setLiberalArtsCred(rs.getInt("liberal_arts_cred"));
+                student.setOfficialEngGrade(rs.getInt("official_eng_grade"));
+                student.setVolunteerTime(rs.getInt("volunteer_time"));
+                student.setCapstone(rs.getInt("capstone"));
+                list.add((student));
+            }
+            return list;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            close(conn, stmt, rs);
+        }
+        return null;
+    }
+
     public boolean insert(StudentVO vo) {
         boolean result = false;
         Connection conn = null;
-        PreparedStatement pstmt = null;
 
         try {
             conn = getConnection();
@@ -125,5 +160,27 @@ public class StudentDAO {
         }
 
         return result;
+    }
+
+    public int count(){
+        int cnt = -1;
+        Connection conn = null;
+        String sql = "select count(*) from student";
+
+        try {
+            conn = getConnection();
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery(sql);
+
+            if (rs.next()){
+                cnt = rs.getInt(1);
+            }
+            return cnt;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            close(conn, stmt, rs);
+        }
+        return cnt;
     }
 }
