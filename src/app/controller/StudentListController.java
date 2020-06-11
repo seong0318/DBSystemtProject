@@ -131,6 +131,28 @@ public class StudentListController {
     private TextField yearText;
     @FXML
     private Button searchBtn;
+    @FXML
+    private TextField selectedIdText;
+    @FXML
+    private TextField selectedNameText;
+    @FXML
+    private TextField selectedDeptText;
+    @FXML
+    private TextField selectedYearText;
+    @FXML
+    private TextField selectedCredText;
+    @FXML
+    private TextField selectedMajorText;
+    @FXML
+    private TextField selectedLiberalText;
+    @FXML
+    private TextField selectedEngText;
+    @FXML
+    private TextField selectedVolunteerText;
+    @FXML
+    private TextField selectedCapstoneText;
+    @FXML
+    private Button editBtn;
 
     private ArrayList<StudentVO> studentList;
     private ObservableList<StudentTableRowDataModel> rowList = FXCollections.observableArrayList();
@@ -159,13 +181,29 @@ public class StudentListController {
         updateRowList(0);
 
         ChangeListener<Number> paginationChangeListener = (observable, oldValue, newValue) -> changePage();
+        ChangeListener<StudentTableRowDataModel> tableSelectListener = (observable, oldValue, newValue) -> selectRow();
         pagination.setPageCount(studentList.size() / PAGE_NUM_ELEM + 1);
         pagination.currentPageIndexProperty().addListener(paginationChangeListener);
+        studentTable.getSelectionModel().selectedItemProperty().addListener(tableSelectListener);
     }
 
     private void changePage() {
         int currentPageIndex = pagination.getCurrentPageIndex();
         updateRowList(currentPageIndex);
+    }
+
+    private void selectRow() {
+        StudentTableRowDataModel model = studentTable.getSelectionModel().getSelectedItem();
+        selectedIdText.setText(model.idProperty().getValue().toString());
+        selectedNameText.setText(model.nameProperty().getValue());
+        selectedDeptText.setText(model.deptProperty().getValue());
+        selectedYearText.setText(model.yearProperty().getValue().toString());
+        selectedCredText.setText(model.totCredProperty().getValue().toString());
+        selectedMajorText.setText(model.majorCredProperty().getValue().toString());
+        selectedLiberalText.setText(model.liberalCredProperty().getValue().toString());
+        selectedEngText.setText(model.engGradeProperty().getValue().toString());
+        selectedVolunteerText.setText(model.volunteerTimeProperty().getValue().toString());
+        selectedCapstoneText.setText(model.capstoneProperty().getValue().toString());
     }
 
     public void moveMainPageBtnClick(javafx.scene.input.MouseEvent mouseEvent) {
@@ -208,6 +246,10 @@ public class StudentListController {
         pagination.setPageCount(studentList.size() / PAGE_NUM_ELEM + 1);
         pagination.setCurrentPageIndex(0);
         updateRowList(0);
+    }
+
+    public void editBtnClick(javafx.scene.input.MouseEvent mouseEvent) {
+
     }
 
     private void addRowList(ArrayList<StudentVO> studentList) {

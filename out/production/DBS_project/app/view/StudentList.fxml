@@ -7,14 +7,14 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.controller.StudentListController">
+<AnchorPane prefHeight="660.0" prefWidth="990.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.controller.StudentListController">
    <children>
       <Button fx:id="moveMainPageBtn" layoutX="40.0" layoutY="38.0" mnemonicParsing="false" onMouseClicked="#moveMainPageBtnClick" text="메인 페이지">
          <font>
             <Font size="18.0" />
          </font>
       </Button>
-      <TableView fx:id="studentTable" layoutX="65.0" layoutY="125.0" prefHeight="385.0" prefWidth="770.0">
+      <TableView fx:id="studentTable" layoutX="110.0" layoutY="117.0" prefHeight="385.0" prefWidth="770.0">
          <columns>
             <TableColumn fx:id="idCol" prefWidth="75.0" text="학번" />
             <TableColumn fx:id="nameCol" prefWidth="75.0" text="이름" />
@@ -28,13 +28,24 @@
             <TableColumn fx:id="capstoneCol" prefWidth="75.0" text="캡스톤" />
          </columns>
       </TableView>
-      <Pagination fx:id="pagination" layoutX="220.0" layoutY="534.0" prefHeight="0.0" prefWidth="392.0" />
-      <TextField fx:id="selectPage" layoutX="583.0" layoutY="539.0" prefHeight="20.0" prefWidth="50.0" />
-      <Button fx:id="movePageBtn" layoutX="639.0" layoutY="539.0" mnemonicParsing="false" onMouseClicked="#movePageBtnClick" text="Go" />
+      <Pagination fx:id="pagination" layoutX="265.0" layoutY="594.0" prefHeight="0.0" prefWidth="392.0" />
+      <TextField fx:id="selectPage" layoutX="628.0" layoutY="599.0" prefHeight="20.0" prefWidth="50.0" />
+      <Button fx:id="movePageBtn" layoutX="684.0" layoutY="599.0" mnemonicParsing="false" onMouseClicked="#movePageBtnClick" text="Go" />
       <TextField fx:id="idText" alignment="TOP_CENTER" layoutX="356.0" layoutY="40.0" prefHeight="29.0" prefWidth="94.0" promptText="학번" />
       <TextField fx:id="yearText" alignment="TOP_CENTER" layoutX="688.0" layoutY="40.0" prefHeight="29.0" prefWidth="79.0" promptText="입학년도" />
       <TextField fx:id="nameText" alignment="TOP_CENTER" layoutX="462.0" layoutY="40.0" prefHeight="29.0" prefWidth="101.0" promptText="이름" />
       <TextField fx:id="deptText" alignment="TOP_CENTER" layoutX="575.0" layoutY="40.0" prefHeight="29.0" prefWidth="101.0" promptText="학과" />
       <Button fx:id="searchBtn" layoutX="782.0" layoutY="40.0" mnemonicParsing="false" onMouseClicked="#searchBtnClick" text="검색" />
+      <TextField fx:id="selectedIdText" alignment="TOP_CENTER" layoutX="113.0" layoutY="515.0" prefHeight="29.0" prefWidth="75.0" promptText="학번" />
+      <TextField fx:id="selectedNameText" alignment="TOP_CENTER" layoutX="188.0" layoutY="515.0" prefHeight="29.0" prefWidth="75.0" promptText="이름" />
+      <TextField fx:id="selectedDeptText" alignment="TOP_CENTER" layoutX="265.0" layoutY="515.0" prefHeight="29.0" prefWidth="75.0" promptText="학과" />
+      <TextField fx:id="selectedYearText" alignment="TOP_CENTER" layoutX="340.0" layoutY="515.0" prefHeight="29.0" prefWidth="75.0" promptText="입학년도" />
+      <TextField fx:id="selectedCredText" alignment="TOP_CENTER" layoutX="413.0" layoutY="515.0" prefHeight="29.0" prefWidth="75.0" promptText="수강학점" />
+      <TextField fx:id="selectedMajorText" alignment="TOP_CENTER" layoutX="488.0" layoutY="515.0" prefHeight="29.0" prefWidth="75.0" promptText="전공학점" />
+      <TextField fx:id="selectedLiberalText" alignment="TOP_CENTER" layoutX="563.0" layoutY="515.0" prefHeight="29.0" prefWidth="75.0" promptText="교양학점" />
+      <TextField fx:id="selectedEngText" alignment="TOP_CENTER" layoutX="639.0" layoutY="515.0" prefHeight="29.0" prefWidth="75.0" promptText="토익점수" />
+      <TextField fx:id="selectedVolunteerText" alignment="TOP_CENTER" layoutX="714.0" layoutY="515.0" prefHeight="29.0" prefWidth="75.0" promptText="봉사시간" />
+      <TextField fx:id="selectedCapstoneText" alignment="TOP_CENTER" layoutX="789.0" layoutY="515.0" prefHeight="29.0" prefWidth="75.0" promptText="캡스톤" />
+      <Button fx:id="editBtn" layoutX="454.0" layoutY="557.0" mnemonicParsing="false" onMouseClicked="#editBtnClick" text="수정" />
    </children>
 </AnchorPane>
