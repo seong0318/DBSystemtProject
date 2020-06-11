@@ -19,7 +19,7 @@ public class StudentDAO {
         try {
 //            Class.forName("com.mysql.jdbc.Driver");
             String driver = "com.mysql.jdbc.Driver";
-            String url = "jdbc:mysql://localhost/db_system_project?serverTimezone=UTC&useSSL=false";
+            String url = "jdbc:mysql://localhost/db_system_project?serverTimezone=UTC&allowPublicKeyRetrieval=true&useSSL=false";
             Class.forName(driver);
             conn = DriverManager.getConnection(url, dbuser, dbpw);
         } catch (Exception e) {
