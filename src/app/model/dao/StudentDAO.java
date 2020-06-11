@@ -51,31 +51,6 @@ public class StudentDAO extends ConnectDB {
         return null;
     }
 
-    public ArrayList<StudentVO> getPage(int start, int end) {
-        ArrayList<StudentVO> list = new ArrayList<StudentVO>();
-        Connection conn = null;
-
-        try {
-            conn = getConnection();
-            String sql = "SELECT * FROM student LIMIT ?, ?";
-            pstmt = conn.prepareStatement(sql);
-            pstmt.setInt(1, start);
-            pstmt.setInt(2, end);
-            rs = pstmt.executeQuery();
-
-            while (rs.next()) {
-                StudentVO student = setStudentVO(rs);
-                list.add((student));
-            }
-            return list;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            close(conn, stmt, rs);
-        }
-        return null;
-    }
-
     public boolean insert(StudentVO vo) {
         boolean result = false;
         Connection conn = null;
@@ -116,28 +91,6 @@ public class StudentDAO extends ConnectDB {
         }
 
         return result;
-    }
-
-    public int count() {
-        int cnt = -1;
-        Connection conn = null;
-        String sql = "SELECT COUNT(*) FROM student";
-
-        try {
-            conn = getConnection();
-            stmt = conn.createStatement();
-            rs = stmt.executeQuery(sql);
-
-            if (rs.next()) {
-                cnt = rs.getInt(1);
-            }
-            return cnt;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            close(conn, stmt, rs);
-        }
-        return cnt;
     }
 
     public ArrayList<StudentVO> get(List<List<String>> condition) {

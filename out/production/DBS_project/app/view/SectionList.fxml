@@ -9,24 +9,34 @@
 
 <AnchorPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.controller.SectionListController">
    <children>
-      <ScrollPane layoutX="118.0" layoutY="133.0" prefHeight="400.0" prefWidth="660.0">
-        <content>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="400.0" prefWidth="660.0">
-               <children>
-                  <TableView prefHeight="400.0" prefWidth="660.0">
-                    <columns>
-                      <TableColumn prefWidth="75.0" text="학번" />
-                      <TableColumn prefWidth="75.0" text="이름" />
-                    </columns>
-                  </TableView>
-               </children>
-            </AnchorPane>
-        </content>
-      </ScrollPane>
-      <Button fx:id="moveMainPageBtn" layoutX="74.0" layoutY="50.0" mnemonicParsing="false" onMouseClicked="#moveMainPageBtnClick" text="메인 페이지">
+      <Button fx:id="searchBtn" layoutX="780.0" layoutY="40.0" mnemonicParsing="false" onMouseClicked="#searchBtnClick" text="검색" />
+      <TextField fx:id="yearText" alignment="TOP_CENTER" layoutX="595.0" layoutY="40.0" prefHeight="29.0" prefWidth="79.0" promptText="연도" />
+      <TextField fx:id="nameText" alignment="TOP_CENTER" layoutX="480.0" layoutY="40.0" prefHeight="29.0" prefWidth="101.0" promptText="강의명" />
+      <TextField fx:id="credText" alignment="TOP_CENTER" layoutX="686.0" layoutY="40.0" prefHeight="29.0" prefWidth="79.0" promptText="학점" />
+      <TextField fx:id="deptText" alignment="TOP_CENTER" layoutX="374.0" layoutY="40.0" prefHeight="29.0" prefWidth="94.0" promptText="학과" />
+      <Button fx:id="movePageBtn" layoutX="637.0" layoutY="539.0" mnemonicParsing="false" onMouseClicked="#movePageBtnClick" text="Go" />
+      <TextField fx:id="selectPage" layoutX="581.0" layoutY="539.0" prefHeight="20.0" prefWidth="50.0" />
+      <Pagination fx:id="pagination" layoutX="218.0" layoutY="534.0" prefHeight="0.0" prefWidth="392.0" />
+      <TableView fx:id="sectionTable" layoutX="63.0" layoutY="125.0" prefHeight="385.0" prefWidth="770.0">
+         <columns>
+            <TableColumn fx:id="deptCol" prefWidth="75.0" text="학과" />
+            <TableColumn fx:id="titleCol" prefWidth="75.0" text="강의명" />
+            <TableColumn fx:id="majorCol" prefWidth="75.0" text="전공" />
+            <TableColumn fx:id="credCol" prefWidth="75.0" text="학점" />
+            <TableColumn fx:id="yearCol" prefWidth="75.0" text="연도" />
+            <TableColumn fx:id="semesterCol" prefWidth="75.0" text="학기" />
+            <TableColumn fx:id="dayCol" prefWidth="75.0" text="요일" />
+            <TableColumn fx:id="startCol" prefWidth="75.0" text="강의시작" />
+            <TableColumn fx:id="endCol" prefWidth="75.0" text="강의종료" />
+            <TableColumn fx:id="locationCol" prefWidth="75.0" text="교실" />
+         </columns>
+      </TableView>
+      <Button fx:id="moveMainPageBtn" layoutX="38.0" layoutY="38.0" mnemonicParsing="false" onMouseClicked="#moveMainPageBtnClick" text="메인 페이지">
          <font>
             <Font size="18.0" />
          </font>
       </Button>
+      <CheckBox fx:id="springCheck" layoutX="610.0" layoutY="79.0" mnemonicParsing="false" onMouseClicked="#springCheckClick" text="1학기" />
+      <CheckBox fx:id="autumnCheck" layoutX="697.0" layoutY="79.0" mnemonicParsing="false" onMouseClicked="#autumnCheckClick" text="2학기" />
    </children>
 </AnchorPane>

@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-class TableRowDataModel {
+class StudentTableRowDataModel {
     private IntegerProperty id;
     private StringProperty name;
     private StringProperty dept;
@@ -32,7 +32,7 @@ class TableRowDataModel {
     private IntegerProperty volunteerTime;
     private IntegerProperty capstone;
 
-    TableRowDataModel(IntegerProperty id, StringProperty name, StringProperty dept, IntegerProperty year,
+    StudentTableRowDataModel(IntegerProperty id, StringProperty name, StringProperty dept, IntegerProperty year,
                       IntegerProperty totCred, IntegerProperty majorCred, IntegerProperty liberalCred,
                       IntegerProperty engGrade, IntegerProperty volunteerTime, IntegerProperty capstone) {
         this.id = id;
@@ -94,27 +94,27 @@ public class StudentListController {
     @FXML
     private Button moveMainPageBtn;
     @FXML
-    private TableView<TableRowDataModel> studentTable;
+    private TableView<StudentTableRowDataModel> studentTable;
     @FXML
-    private TableColumn<TableRowDataModel, Integer> idCol;
+    private TableColumn<StudentTableRowDataModel, Integer> idCol;
     @FXML
-    private TableColumn<TableRowDataModel, String> nameCol;
+    private TableColumn<StudentTableRowDataModel, String> nameCol;
     @FXML
-    private TableColumn<TableRowDataModel, String> deptCol;
+    private TableColumn<StudentTableRowDataModel, String> deptCol;
     @FXML
-    private TableColumn<TableRowDataModel, Integer> yearCol;
+    private TableColumn<StudentTableRowDataModel, Integer> yearCol;
     @FXML
-    private TableColumn<TableRowDataModel, Integer> totCredCol;
+    private TableColumn<StudentTableRowDataModel, Integer> totCredCol;
     @FXML
-    private TableColumn<TableRowDataModel, Integer> majorCredCol;
+    private TableColumn<StudentTableRowDataModel, Integer> majorCredCol;
     @FXML
-    private TableColumn<TableRowDataModel, Integer> liberalCredCol;
+    private TableColumn<StudentTableRowDataModel, Integer> liberalCredCol;
     @FXML
-    private TableColumn<TableRowDataModel, Integer> engGradeCol;
+    private TableColumn<StudentTableRowDataModel, Integer> engGradeCol;
     @FXML
-    private TableColumn<TableRowDataModel, Integer> volunteerCol;
+    private TableColumn<StudentTableRowDataModel, Integer> volunteerCol;
     @FXML
-    private TableColumn<TableRowDataModel, Integer> capstoneCol;
+    private TableColumn<StudentTableRowDataModel, Integer> capstoneCol;
     @FXML
     private Pagination pagination;
     @FXML
@@ -133,7 +133,7 @@ public class StudentListController {
     private Button searchBtn;
 
     private ArrayList<StudentVO> studentList;
-    private ObservableList<TableRowDataModel> rowList = FXCollections.observableArrayList();
+    private ObservableList<StudentTableRowDataModel> rowList = FXCollections.observableArrayList();
     private MovePage movePage = new MovePage();
 
     public StudentListController() {
@@ -216,7 +216,7 @@ public class StudentListController {
 
     private void addRowList(ArrayList<StudentVO> studentList) {
         for (StudentVO elem : studentList) {
-            TableRowDataModel row;
+            StudentTableRowDataModel row;
             IntegerProperty id = new SimpleIntegerProperty(elem.getStudentId());
             StringProperty name = new SimpleStringProperty(elem.getName());
             StringProperty dept = new SimpleStringProperty(elem.getDeptName());
@@ -227,7 +227,7 @@ public class StudentListController {
             IntegerProperty engGrade = new SimpleIntegerProperty(elem.getOfficialEngGrade());
             IntegerProperty volunteer = new SimpleIntegerProperty(elem.getVolunteerTime());
             IntegerProperty capstone = new SimpleIntegerProperty(elem.getCapstone());
-            row = new TableRowDataModel(id, name, dept, year, totCred, majorCred, liberalCred, engGrade, volunteer, capstone);
+            row = new StudentTableRowDataModel(id, name, dept, year, totCred, majorCred, liberalCred, engGrade, volunteer, capstone);
             rowList.add(row);
         }
     }

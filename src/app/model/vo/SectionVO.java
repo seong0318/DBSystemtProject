@@ -1,6 +1,5 @@
 package app.model.vo;
 
-import java.sql.Time;
 
 public class SectionVO {
     private int courseId;
@@ -11,8 +10,8 @@ public class SectionVO {
     private String building;
     private String roomNum;
     private int day;
-    private Time startTime;
-    private Time endTime;
+    private String startTime;
+    private String endTime;
     private String title;
     private String deptName;
     private int cred;
@@ -82,19 +81,19 @@ public class SectionVO {
         this.day = day;
     }
 
-    public Time getStartTime() {
+    public String getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(Time startTime) {
+    public void setStartTime(String startTime) {
         this.startTime = startTime;
     }
 
-    public Time getEndTime() {
+    public String getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(Time endTime) {
+    public void setEndTime(String endTime) {
         this.endTime = endTime;
     }
 
