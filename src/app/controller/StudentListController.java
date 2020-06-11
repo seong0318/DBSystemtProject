@@ -15,6 +15,7 @@ import javafx.scene.control.*;
 import javafx.util.Pair;
 
 import java.awt.event.MouseEvent;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -131,15 +132,14 @@ public class StudentListController {
     @FXML
     private Button searchBtn;
 
+    private ArrayList<StudentVO> studentList;
     private ObservableList<TableRowDataModel> rowList = FXCollections.observableArrayList();
     private MovePage movePage = new MovePage();
-    private int numStudent;
 
     public StudentListController() {
         StudentDAO student = new StudentDAO();
-        ArrayList<StudentVO> studentList = student.getPage(0, PAGE_NUM_ELEM);
+        studentList = student.all();
         addRowList(studentList);
-        numStudent = student.count();
     }
 
     @FXML
@@ -158,7 +158,7 @@ public class StudentListController {
         studentTable.setItems(rowList);
 
         ChangeListener<Number> paginationChangeListener = (observable, oldValue, newValue) -> changePage();
-        pagination.setPageCount(numStudent / PAGE_NUM_ELEM);
+        pagination.setPageCount(studentList.size() / PAGE_NUM_ELEM);
         pagination.currentPageIndexProperty().addListener(paginationChangeListener);
     }
 
@@ -198,17 +198,20 @@ public class StudentListController {
         else condition3 = new ArrayList<>(Arrays.asList("dept_name", "like", "\"%" + dept + "%\""));
 
         if (year.trim().isEmpty()) condition4 = new ArrayList<>(Arrays.asList("year", "is not", "null"));
-        else condition4 = new ArrayList<>(Arrays.asList("year", "=", dept));
+        else condition4 = new ArrayList<>(Arrays.asList("year", "=", year));
 
         List<List<String>> conditionList = new ArrayList<>();
         conditionList.add(condition1);
         conditionList.add(condition2);
         conditionList.add(condition3);
         conditionList.add(condition4);
-        ArrayList<StudentVO> studentList = student.get(conditionList);
+        studentList = student.get(conditionList);   // studentList 교체
 
+//        rowList.clear();
+//        addRowList(studentList);
         rowList.clear();
         addRowList(studentList);
+        pagination.setPageCount(studentList.size() / PAGE_NUM_ELEM);
     }
 
     private void addRowList(ArrayList<StudentVO> studentList) {
@@ -230,12 +233,19 @@ public class StudentListController {
     }
 
     private void updateRowList(int pageNum) {
-        StudentDAO student = new StudentDAO();
-        ArrayList<StudentVO> studentList = student.getPage(pageNum * PAGE_NUM_ELEM, PAGE_NUM_ELEM);
+        ArrayList<StudentVO> studentListPage = paginationAction(pageNum);
 
         rowList.clear();
-        addRowList(studentList);
+        addRowList(studentListPage);
     }
 
-
+    private ArrayList<StudentVO> paginationAction(int page) {
+        ArrayList<StudentVO> studentListPage = new ArrayList<>();
+        int start = page * PAGE_NUM_ELEM;
+        for (int i = 0; i < PAGE_NUM_ELEM; i++) {
+            if (start + i >= studentList.size()) break;
+            studentListPage.add(studentList.get(start + i));
+        }
+        return studentListPage;
+    }
 }

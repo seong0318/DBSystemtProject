@@ -153,7 +153,6 @@ public class StudentDAO extends ConnectDB {
             sb.append("AND ");
         }
         sql = sb.substring(0, sb.length() - 5);
-        System.out.println(sql);
 
         try {
             conn = getConnection();
