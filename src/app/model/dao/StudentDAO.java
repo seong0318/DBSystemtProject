@@ -66,7 +66,6 @@ public class StudentDAO extends ConnectDB {
             while (rs.next()) {
                 StudentVO student = setStudentVO(rs);
                 list.add((student));
-                list.add((student));
             }
             return list;
         } catch (SQLException e) {
@@ -163,7 +162,6 @@ public class StudentDAO extends ConnectDB {
 
             while (rs.next()) {
                 StudentVO student = setStudentVO(rs);
-                list.add((student));
                 list.add((student));
             }
             return list;
