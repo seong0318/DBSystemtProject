@@ -11,10 +11,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Pagination;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -88,7 +85,7 @@ class TableRowDataModel {
 }
 
 public class StudentListController {
-    private int PAGE_NUM_ELEM = 1000;
+    private int PAGE_NUM_ELEM = 100;
 
     @FXML
     private Button moveMainPageBtn;
@@ -116,9 +113,12 @@ public class StudentListController {
     private TableColumn<TableRowDataModel, Integer> capstoneCol;
     @FXML
     private Pagination pagination;
+    @FXML
+    private TextField selectPage;
+    @FXML
+    private Button movePageBtn;
 
     private ObservableList<TableRowDataModel> rowList = FXCollections.observableArrayList();
-    ;
     private MovePage movePage = new MovePage();
     private int numStudent;
 
@@ -127,7 +127,6 @@ public class StudentListController {
         ArrayList<StudentVO> studentList = student.getPage(0, PAGE_NUM_ELEM);
         addRowList(studentList);
         numStudent = student.count();
-        System.out.println(numStudent);
     }
 
     @FXML
@@ -150,8 +149,19 @@ public class StudentListController {
         pagination.currentPageIndexProperty().addListener(paginationChangeListener);
     }
 
+    private void changePage() {
+        int currentPageIndex = pagination.getCurrentPageIndex();
+        updateRowList(currentPageIndex);
+    }
+
     public void moveMainPageBtnClick(javafx.scene.input.MouseEvent mouseEvent) {
         movePage.movePageBtnAction(moveMainPageBtn, "/app/view/MainPage.fxml");
+    }
+
+    public void movePageBtnClick(javafx.scene.input.MouseEvent mouseEvent) {
+        int numPage = Integer.parseInt(selectPage.getText());
+        updateRowList(numPage);
+        pagination.setCurrentPageIndex(numPage - 1);
     }
 
     private void addRowList(ArrayList<StudentVO> studentList) {
@@ -172,13 +182,13 @@ public class StudentListController {
         }
     }
 
-    private void changePage() {
-        System.out.println(pagination.getCurrentPageIndex());
-        int currentPageIndex = pagination.getCurrentPageIndex();
+    private void updateRowList(int pageNum) {
         StudentDAO student = new StudentDAO();
-        ArrayList<StudentVO> studentList = student.getPage(currentPageIndex * PAGE_NUM_ELEM, PAGE_NUM_ELEM);
+        ArrayList<StudentVO> studentList = student.getPage(pageNum * PAGE_NUM_ELEM, PAGE_NUM_ELEM);
 
         rowList.clear();
         addRowList(studentList);
     }
+
+
 }

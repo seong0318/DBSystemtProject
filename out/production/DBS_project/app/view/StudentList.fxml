@@ -28,6 +28,8 @@
             <TableColumn fx:id="capstoneCol" prefWidth="75.0" text="캡스톤" />
          </columns>
       </TableView>
-      <Pagination fx:id="pagination" layoutX="254.0" layoutY="536.0" prefHeight="0.0" prefWidth="392.0" />
+      <Pagination fx:id="pagination" layoutX="220.0" layoutY="534.0" prefHeight="0.0" prefWidth="392.0" />
+      <TextField fx:id="selectPage" layoutX="583.0" layoutY="539.0" prefHeight="20.0" prefWidth="50.0" />
+      <Button fx:id="movePageBtn" layoutX="639.0" layoutY="539.0" mnemonicParsing="false" onMouseClicked="#movePageBtnClick" text="Go" />
    </children>
 </AnchorPane>
