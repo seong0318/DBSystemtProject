@@ -192,6 +192,7 @@ public class SectionListController {
 
     private ArrayList<SectionVO> sectionList;
     private ObservableList<SecTableRowDataModel> rowList = FXCollections.observableArrayList();
+    private ObservableList<String> comboboxElem = FXCollections.observableArrayList("강의명", "학점");
     private MovePage movePage = new MovePage();
 
     public SectionListController() {
@@ -224,6 +225,8 @@ public class SectionListController {
         pagination.setPageCount(sectionList.size() / PAGE_NUM_ELEM + 1);
         pagination.currentPageIndexProperty().addListener(paginationChangeListener);
         sectionTable.getSelectionModel().selectedItemProperty().addListener(tableSelectListener);
+
+        colCombobox.setItems(comboboxElem);
     }
 
     private void changePage() {
@@ -244,10 +247,6 @@ public class SectionListController {
         selectedStartText.setText(model.startProperty().getValue());
         selectedEndText.setText(model.endProperty().getValue());
         selectedClassText.setText(model.locationProperty().getValue());
-        if (selectedSectionIdText == null)
-            System.out.println("fffff");
-        if (model.sectionIdProperty() == null)
-            System.out.println("ddddd");
         selectedSectionIdText.setText(model.sectionIdProperty().getValue().toString());
         selectedTimeslotIdText.setText(model.timeslotIdProperty().getValue().toString());
         selectedCourseIdText.setText(model.courseIdProperty().getValue().toString());
@@ -350,7 +349,24 @@ public class SectionListController {
     }
 
     public void allEditBtnClick(javafx.scene.input.MouseEvent mouseEvent) {
+        String dbCol;
+        SectionDAO sectionDAO = new SectionDAO();
+        String selectedCol = colCombobox.getValue().toString();
+        String findVal = originValueText.getText();
+        String newVal = newValueText.getText();
 
+        switch (selectedCol) {
+            case "강의명":
+                dbCol = "title";
+                break;
+            case "학점":
+                dbCol = "credit";
+                break;
+            default:
+                return;
+        }
+        int cnt = sectionDAO.matchUpdate(dbCol, findVal, newVal);
+        System.out.println(cnt);
     }
 
     private void addRowList(ArrayList<SectionVO> sectionList) {

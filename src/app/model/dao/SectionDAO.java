@@ -6,6 +6,7 @@ import java.util.List;
 
 import app.model.vo.SectionVO;
 import app.model.vo.StudentVO;
+import com.mysql.jdbc.exceptions.MySQLSyntaxErrorException;
 
 public class SectionDAO extends ConnectDB {
     private Statement stmt;
@@ -85,6 +86,53 @@ public class SectionDAO extends ConnectDB {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
+            close(conn, stmt, rs);
+        }
+        return result;
+    }
+
+    public int matchUpdate(String col, String findVal, String newVal) {
+        Connection conn = null;
+        int result = 0;
+        String S6_1 = String.format("SELECT * FROM section WHERE %s = ?", col);
+        String S6_2 = String.format("UPDATE section SET %s = ? WHERE course_id = ? and sec_id =? and semester =? " +
+                "and year = ?", col);
+        String S6_3 = String.format("SELECT * FROM course WHERE %s = ?", col);
+        String S6_4 = String.format("UPDATE course SET %s = ? WHERE course_id = ?", col);
+        try {
+            try {
+                conn = getConnection();
+                conn.setAutoCommit(false);              // T6
+                pstmt = conn.prepareStatement(S6_1);
+                pstmt.setString(1, findVal);
+                rs = pstmt.executeQuery();
+                pstmt = conn.prepareStatement(S6_2);
+                while (rs.next()) {
+                    pstmt.setString(1, newVal);
+                    pstmt.setString(2, rs.getString("course_id"));
+                    pstmt.setInt(3, rs.getInt("sec_id"));
+                    pstmt.setString(4, rs.getString("semester"));
+                    result += pstmt.executeUpdate();
+                }
+            } catch (SQLException e) {
+                assert conn != null;
+                pstmt = conn.prepareStatement(S6_3);
+                pstmt.setString(1, findVal);
+                rs = pstmt.executeQuery();
+                pstmt = conn.prepareStatement(S6_4);
+                while (rs.next()) {
+                    pstmt.setString(1, newVal);
+                    pstmt.setInt(2, rs.getInt("course_id"));
+                    result += pstmt.executeUpdate();
+                }
+            }
+            conn.commit();
+
+        } catch (SQLException e) {
+            System.out.println("szdfsdfsfs");
+            e.printStackTrace();
+        } finally {
+            // T6
             close(conn, stmt, rs);
         }
         return result;
