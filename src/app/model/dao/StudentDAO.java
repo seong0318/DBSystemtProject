@@ -54,11 +54,12 @@ public class StudentDAO extends ConnectDB {
     public int update(StudentVO student) {
         Connection conn = null;
         int result = 0;
-        String sql = "UPDATE student SET name = ?, dept_name = ?, year = ?, tot_cred = ?, major_cred = ?, " +
+        String S4_1 = "UPDATE student SET name = ?, dept_name = ?, year = ?, tot_cred = ?, major_cred = ?, " +
                 "liberal_arts_cred = ?, official_eng_grade = ?, volunteer_time = ?, capstone = ? WHERE student_id = ?";
         try {
             conn = getConnection();
-            pstmt = conn.prepareStatement(sql);
+            conn.setAutoCommit(false);                                  // T4
+            pstmt = conn.prepareStatement(S4_1);
             pstmt.setString(1, student.getName());
             pstmt.setString(2, student.getDeptName());
             pstmt.setInt(3, student.getYear());
@@ -70,6 +71,7 @@ public class StudentDAO extends ConnectDB {
             pstmt.setInt(9, student.getCapstone());
             pstmt.setInt(10, student.getStudentId());
             result = pstmt.executeUpdate();
+            conn.commit();                                          // T4
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -151,6 +153,7 @@ public class StudentDAO extends ConnectDB {
         Connection conn = null;
         String sql;
         StringBuilder sb = new StringBuilder("SELECT * FROM student WHERE ");
+        Statement S2_1;
 
         for (List<String> elem : condition) {
             for (String el : elem) {
@@ -162,18 +165,21 @@ public class StudentDAO extends ConnectDB {
 
         try {
             conn = getConnection();
-            stmt = conn.createStatement();
-            rs = stmt.executeQuery(sql);
+            conn.setAutoCommit(false);              // T2
+            S2_1 = conn.createStatement();
+            rs = S2_1.executeQuery(sql);
 
             while (rs.next()) {
                 StudentVO student = setStudentVO(rs);
                 list.add((student));
             }
+            conn.commit();                          // T2
+            S2_1.close();
+            rs.close();
+            conn.close();
             return list;
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            close(conn, stmt, rs);
         }
         return null;
     }

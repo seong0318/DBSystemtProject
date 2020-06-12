@@ -126,13 +126,11 @@ public class SectionDAO extends ConnectDB {
                     result += pstmt.executeUpdate();
                 }
             }
-            conn.commit();
+            conn.commit();                              // T6
 
         } catch (SQLException e) {
-            System.out.println("szdfsdfsfs");
             e.printStackTrace();
         } finally {
-            // T6
             close(conn, stmt, rs);
         }
         return result;
@@ -141,7 +139,7 @@ public class SectionDAO extends ConnectDB {
     public ArrayList<SectionVO> get(List<List<String>> condition) {
         ArrayList<SectionVO> list = new ArrayList<>();
         Connection conn = null;
-        String sql;
+        String S1_1;
         StringBuilder sb = new StringBuilder("SELECT * FROM section NATURAL JOIN timeslot NATURAL JOIN course WHERE ");
 
         for (List<String> elem : condition) {
@@ -150,17 +148,19 @@ public class SectionDAO extends ConnectDB {
             }
             sb.append("AND ");
         }
-        sql = sb.substring(0, sb.length() - 5);
+        S1_1 = sb.substring(0, sb.length() - 5);
 
         try {
             conn = getConnection();
+            conn.setAutoCommit(false);          //  T1
             stmt = conn.createStatement();
-            rs = stmt.executeQuery(sql);
+            rs = stmt.executeQuery(S1_1);
 
             while (rs.next()) {
                 SectionVO section = setSectionVO(rs);
                 list.add(section);
             }
+            conn.commit();                      //  T1
             return list;
         } catch (SQLException e) {
             e.printStackTrace();
