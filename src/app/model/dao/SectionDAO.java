@@ -55,6 +55,41 @@ public class SectionDAO extends ConnectDB {
         return null;
     }
 
+    public int update(SectionVO section) {
+        Connection conn = null;
+        int result = 0;
+        String S3_1 = "UPDATE section SET building = ?, room_number = ? WHERE course_id = ? and" +
+                " sec_id = ? and semester = ? and year = ?";
+        String S3_2 = "UPDATE course SET title = ?, credit = ?, type = ? WHERE course_id = ?";
+        try {
+            conn = getConnection();
+            conn.setAutoCommit(false);                  // T3
+            pstmt = conn.prepareStatement(S3_1);
+            pstmt.setString(1, section.getBuilding());
+            pstmt.setString(2, section.getRoomNum());
+            pstmt.setInt(3, section.getCourseId());
+            pstmt.setInt(4, section.getSecId());
+            pstmt.setString(5, section.getSemester());
+            pstmt.setInt(6, section.getYear());
+            System.out.println(pstmt.toString());
+            result += pstmt.executeUpdate();
+
+            pstmt = conn.prepareStatement(S3_2);
+            pstmt.setString(1, section.getTitle());
+            pstmt.setInt(2, section.getCred());
+            pstmt.setInt(3, section.getType());
+            pstmt.setInt(4, section.getCourseId());
+            System.out.println(pstmt.toString());
+            result += pstmt.executeUpdate();
+            conn.commit();                              // T3
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            close(conn, stmt, rs);
+        }
+        return result;
+    }
+
     public ArrayList<SectionVO> get(List<List<String>> condition) {
         ArrayList<SectionVO> list = new ArrayList<>();
         Connection conn = null;

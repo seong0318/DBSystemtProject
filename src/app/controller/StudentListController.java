@@ -12,7 +12,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.util.Pair;
 
 import java.awt.event.MouseEvent;
 import java.lang.reflect.Array;
@@ -164,7 +163,7 @@ public class StudentListController {
 
     private ArrayList<StudentVO> studentList;
     private ObservableList<StudentTableRowDataModel> rowList = FXCollections.observableArrayList();
-    private ObservableList<String> comboboxElem = FXCollections.observableArrayList("이름", "입학년도",
+    private ObservableList<String> comboboxElem = FXCollections.observableArrayList("입학년도",
             "수강학점", "전공학점", "교양학점", "토익점수", "봉사시간", "캡스톤");
     private MovePage movePage = new MovePage();
 
@@ -286,9 +285,7 @@ public class StudentListController {
         student.setVolunteerTime(volunteer);
         student.setCapstone(capstone);
 
-        int result = studentDAO.update(student);
-
-        System.out.println(result);
+        studentDAO.update(student);
     }
 
     public void allEditBtnClick() {
@@ -299,9 +296,6 @@ public class StudentListController {
         int newVal = Integer.parseInt(newValueText.getText());
 
         switch (selectedCol) {
-            case "이름":
-                dbCol = "name";
-                break;
             case "입학년도":
                 dbCol = "year";
                 break;

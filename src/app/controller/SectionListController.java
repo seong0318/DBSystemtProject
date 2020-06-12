@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-class SectionTableRowDataModel {
+class SecTableRowDataModel {
     private StringProperty dept;
     private StringProperty title;
     private IntegerProperty major;
@@ -28,10 +28,14 @@ class SectionTableRowDataModel {
     private StringProperty start;
     private StringProperty end;
     private StringProperty location;
+    private IntegerProperty sectionId;
+    private IntegerProperty timeslotId;
+    private IntegerProperty courseId;
 
-    SectionTableRowDataModel(StringProperty dept, StringProperty title, IntegerProperty major, IntegerProperty cred,
-                             IntegerProperty year, StringProperty semester, IntegerProperty day, StringProperty start,
-                             StringProperty end, StringProperty location) {
+    SecTableRowDataModel(StringProperty dept, StringProperty title, IntegerProperty major, IntegerProperty cred,
+                         IntegerProperty year, StringProperty semester, IntegerProperty day, StringProperty start,
+                         StringProperty end, StringProperty location, IntegerProperty sectionId,
+                         IntegerProperty timeslotId, IntegerProperty courseId) {
         this.dept = dept;
         this.title = title;
         this.major = major;
@@ -42,6 +46,9 @@ class SectionTableRowDataModel {
         this.start = start;
         this.end = end;
         this.location = location;
+        this.sectionId = sectionId;
+        this.timeslotId = timeslotId;
+        this.courseId = courseId;
     }
 
     StringProperty deptProperty() {
@@ -83,6 +90,18 @@ class SectionTableRowDataModel {
     StringProperty locationProperty() {
         return location;
     }
+
+    IntegerProperty sectionIdProperty() {
+        return sectionId;
+    }
+
+    IntegerProperty timeslotIdProperty() {
+        return timeslotId;
+    }
+
+    IntegerProperty courseIdProperty() {
+        return courseId;
+    }
 }
 
 public class SectionListController {
@@ -91,27 +110,33 @@ public class SectionListController {
     @FXML
     private Button moveMainPageBtn;
     @FXML
-    private TableView<SectionTableRowDataModel> sectionTable;
+    private TableView<SecTableRowDataModel> sectionTable;
     @FXML
-    private TableColumn<SectionTableRowDataModel, String> deptCol;
+    private TableColumn<SecTableRowDataModel, String> deptCol;
     @FXML
-    private TableColumn<SectionTableRowDataModel, String> titleCol;
+    private TableColumn<SecTableRowDataModel, String> titleCol;
     @FXML
-    private TableColumn<SectionTableRowDataModel, Integer> majorCol;
+    private TableColumn<SecTableRowDataModel, Integer> majorCol;
     @FXML
-    private TableColumn<SectionTableRowDataModel, Integer> credCol;
+    private TableColumn<SecTableRowDataModel, Integer> credCol;
     @FXML
-    private TableColumn<SectionTableRowDataModel, Integer> yearCol;
+    private TableColumn<SecTableRowDataModel, Integer> yearCol;
     @FXML
-    private TableColumn<SectionTableRowDataModel, String> semesterCol;
+    private TableColumn<SecTableRowDataModel, String> semesterCol;
     @FXML
-    private TableColumn<SectionTableRowDataModel, Integer> dayCol;
+    private TableColumn<SecTableRowDataModel, Integer> dayCol;
     @FXML
-    private TableColumn<SectionTableRowDataModel, String> startCol;
+    private TableColumn<SecTableRowDataModel, String> startCol;
     @FXML
-    private TableColumn<SectionTableRowDataModel, String> endCol;
+    private TableColumn<SecTableRowDataModel, String> endCol;
     @FXML
-    private TableColumn<SectionTableRowDataModel, String> locationCol;
+    private TableColumn<SecTableRowDataModel, String> locationCol;
+    @FXML
+    private TableColumn<SecTableRowDataModel, Integer> sectionIdCol;
+    @FXML
+    private TableColumn<SecTableRowDataModel, Integer> timeslotIdCol;
+    @FXML
+    private TableColumn<SecTableRowDataModel, Integer> courseIdCol;
     @FXML
     private Pagination pagination;
     @FXML
@@ -130,9 +155,43 @@ public class SectionListController {
     private CheckBox autumnCheck;
     @FXML
     private Button searchBtn;
+    @FXML
+    private TextField selectedDeptText;
+    @FXML
+    private TextField selectedTitleText;
+    @FXML
+    private TextField selectedMajorText;
+    @FXML
+    private TextField selectedCredText;
+    @FXML
+    private TextField selectedYearText;
+    @FXML
+    private TextField selectedSemesterText;
+    @FXML
+    private TextField selectedDayText;
+    @FXML
+    private TextField selectedStartText;
+    @FXML
+    private TextField selectedEndText;
+    @FXML
+    private TextField selectedClassText;
+    @FXML
+    private TextField selectedSectionIdText;
+    @FXML
+    private TextField selectedTimeslotIdText;
+    @FXML
+    private TextField selectedCourseIdText;
+    @FXML
+    private ComboBox colCombobox;
+    @FXML
+    private TextField originValueText;
+    @FXML
+    private TextField newValueText;
+    @FXML
+    private Button allEditBtn;
 
     private ArrayList<SectionVO> sectionList;
-    private ObservableList<SectionTableRowDataModel> rowList = FXCollections.observableArrayList();
+    private ObservableList<SecTableRowDataModel> rowList = FXCollections.observableArrayList();
     private MovePage movePage = new MovePage();
 
     public SectionListController() {
@@ -153,18 +212,45 @@ public class SectionListController {
         startCol.setCellValueFactory(cellData -> cellData.getValue().startProperty());
         endCol.setCellValueFactory(cellData -> cellData.getValue().endProperty());
         locationCol.setCellValueFactory(cellData -> cellData.getValue().locationProperty());
+        sectionIdCol.setCellValueFactory(cellData -> cellData.getValue().sectionIdProperty().asObject());
+        timeslotIdCol.setCellValueFactory(cellData -> cellData.getValue().timeslotIdProperty().asObject());
+        courseIdCol.setCellValueFactory(cellData -> cellData.getValue().courseIdProperty().asObject());
 
         sectionTable.setItems(rowList);
         updateRowList(0);
 
         ChangeListener<Number> paginationChangeListener = (observable, oldValue, newValue) -> changePage();
+        ChangeListener<SecTableRowDataModel> tableSelectListener = (observable, oldValue, newValue) -> selectRow();
         pagination.setPageCount(sectionList.size() / PAGE_NUM_ELEM + 1);
         pagination.currentPageIndexProperty().addListener(paginationChangeListener);
+        sectionTable.getSelectionModel().selectedItemProperty().addListener(tableSelectListener);
     }
 
     private void changePage() {
         int currentPageIndex = pagination.getCurrentPageIndex();
         updateRowList(currentPageIndex);
+    }
+
+    private void selectRow() {
+        SecTableRowDataModel model = sectionTable.getSelectionModel().getSelectedItem();
+        if (model == null) return;
+        selectedDeptText.setText(model.deptProperty().getValue());
+        selectedTitleText.setText(model.titleProperty().getValue());
+        selectedMajorText.setText(model.majorProperty().getValue().toString());
+        selectedCredText.setText(model.credProperty().getValue().toString());
+        selectedYearText.setText(model.yearProperty().getValue().toString());
+        selectedSemesterText.setText(model.semesterProperty().get());
+        selectedDayText.setText(model.dayProperty().getValue().toString());
+        selectedStartText.setText(model.startProperty().getValue());
+        selectedEndText.setText(model.endProperty().getValue());
+        selectedClassText.setText(model.locationProperty().getValue());
+        if (selectedSectionIdText == null)
+            System.out.println("fffff");
+        if (model.sectionIdProperty() == null)
+            System.out.println("ddddd");
+        selectedSectionIdText.setText(model.sectionIdProperty().getValue().toString());
+        selectedTimeslotIdText.setText(model.timeslotIdProperty().getValue().toString());
+        selectedCourseIdText.setText(model.courseIdProperty().getValue().toString());
     }
 
     public void moveMainPageBtnClick(javafx.scene.input.MouseEvent mouseEvent) {
@@ -225,9 +311,51 @@ public class SectionListController {
         springCheck.setSelected(false);
     }
 
+    public void editBtnClick(javafx.scene.input.MouseEvent mouseEvent) {
+        SectionVO section = new SectionVO();
+        SectionDAO sectionDAO = new SectionDAO();
+        String dept = selectedDeptText.getText();
+        String title = selectedTitleText.getText();
+        int major = Integer.parseInt(selectedMajorText.getText());
+        int cred = Integer.parseInt(selectedCredText.getText());
+        int year = Integer.parseInt(selectedYearText.getText());
+        String semester = selectedSemesterText.getText();
+        int day = Integer.parseInt(selectedDayText.getText());
+        String start = selectedStartText.getText();
+        String end = selectedEndText.getText();
+        String classroom = selectedClassText.getText();
+        String[] mobstr = classroom.split("-");
+        String building = mobstr[0];
+        String room = mobstr[1];
+        int sectionId = Integer.parseInt(selectedSectionIdText.getText());
+        int timeslotId = Integer.parseInt(selectedTimeslotIdText.getText());
+        int courseId = Integer.parseInt(selectedCourseIdText.getText());
+
+        section.setDeptName(dept);
+        section.setTitle(title);
+        section.setType(major);
+        section.setCred(cred);
+        section.setYear(year);
+        section.setSemester(semester);
+        section.setDay(day);
+        section.setStartTime(start);
+        section.setEndTime(end);
+        section.setBuilding(building);
+        section.setRoomNum(room);
+        section.setSecId(sectionId);
+        section.setTimeslotId(timeslotId);
+        section.setCourseId(courseId);
+
+        System.out.println(sectionDAO.update(section));
+    }
+
+    public void allEditBtnClick(javafx.scene.input.MouseEvent mouseEvent) {
+
+    }
+
     private void addRowList(ArrayList<SectionVO> sectionList) {
         for (SectionVO elem : sectionList) {
-            SectionTableRowDataModel row;
+            SecTableRowDataModel row;
             StringProperty dept = new SimpleStringProperty(elem.getDeptName());
             StringProperty title = new SimpleStringProperty(elem.getTitle());
             IntegerProperty major = new SimpleIntegerProperty(elem.getType());
@@ -239,7 +367,11 @@ public class SectionListController {
             StringProperty end = new SimpleStringProperty(elem.getEndTime());
             StringProperty location = new SimpleStringProperty(String.format("%s-%s", elem.getBuilding(),
                     elem.getRoomNum()));
-            row = new SectionTableRowDataModel(dept, title, major, cred, year, semester, day, start, end, location);
+            IntegerProperty sectionId = new SimpleIntegerProperty(elem.getSecId());
+            IntegerProperty timeslotId = new SimpleIntegerProperty(elem.getTimeslotId());
+            IntegerProperty courseId = new SimpleIntegerProperty(elem.getCourseId());
+            row = new SecTableRowDataModel(dept, title, major, cred, year, semester, day, start, end, location,
+                    sectionId, timeslotId, courseId);
             rowList.add(row);
         }
     }
