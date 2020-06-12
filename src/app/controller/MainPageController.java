@@ -12,6 +12,8 @@ public class MainPageController {
     private Button studentlist;
     @FXML
     private Button sectionlist;
+    @FXML
+    private Button capstoneCheckBtn;
 
     private MovePage movePage = new MovePage();
     private Main mainApp;
@@ -33,5 +35,9 @@ public class MainPageController {
 
     public void studentListBtnClick(MouseEvent mouseEvent) {
         movePage.movePageBtnAction(sectionlist, "/app/view/StudentList.fxml");
+    }
+
+    public void capstoneCheckBtnClick(MouseEvent mouseEvent) {
+        movePage.movePageBtnAction(capstoneCheckBtn, "/app/view/CapstoneCheck.fxml");
     }
 }

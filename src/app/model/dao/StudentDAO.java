@@ -183,4 +183,77 @@ public class StudentDAO extends ConnectDB {
         }
         return null;
     }
+
+    public int capstoneCheck(String studentId) {
+        Connection conn = null;
+        String dept = "";
+        String grade = "";
+        int year = 0;
+        int result = 0;
+        int numtakes = 0;
+        int score = 0;
+        int averagescore;
+        int totCred = 0;
+        int gradTotCred = 0;
+        String S7_1 = "SELECT * FROM student NATURAL JOIN takes WHERE student_id = ?";
+        String S7_2 = "SELECT * FROM graduation_standard WHERE year = ? AND dept_name = ?";
+        String S7_3 = "UPDATE student SET capstone = ? WHERE student_id = ?";
+        try {
+            conn = getConnection();
+            conn.setAutoCommit(false);      // T7
+            pstmt = conn.prepareStatement(S7_1);
+            pstmt.setInt(1, Integer.parseInt(studentId));
+            rs = pstmt.executeQuery();
+            while (rs.next()) {
+                year = rs.getInt("year");
+                dept = rs.getString("dept_name");
+                grade = rs.getString("grade");
+                totCred = rs.getInt("tot_cred");
+                switch (grade) {
+                    case "A+":
+                        score += 4.5;
+                        break;
+                    case "A":
+                        score += 4;
+                        break;
+                    case "B+":
+                        score += 3.5;
+                        break;
+                    case "B":
+                        score += 3.0;
+                        break;
+                    case "C+":
+                        score += 2.5;
+                        break;
+                    case "C":
+                        score += 2;
+                        break;
+                    case "D+":
+                        score += 1.5;
+                        break;
+                    case "D":
+                        score += 1;
+                        break;
+                }
+                numtakes += 1;
+            }
+            averagescore = score / numtakes;
+            pstmt = conn.prepareStatement(S7_2);
+            pstmt.setInt(1, year);
+            pstmt.setString(2, dept);
+            rs = pstmt.executeQuery();
+            while (rs.next()) {
+                gradTotCred = rs.getInt("tot_cred");
+                if (totCred >= gradTotCred && averagescore >= 4) {
+                    pstmt = conn.prepareStatement(S7_3);
+                    pstmt.setInt(1, 1);
+                    pstmt.setString(2, studentId);
+                    result = pstmt.executeUpdate();
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
 }

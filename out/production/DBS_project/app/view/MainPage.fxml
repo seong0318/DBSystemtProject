@@ -23,5 +23,10 @@
             <Font size="24.0" />
          </font>
       </Button>
+      <Button fx:id="capstoneCheckBtn" layoutX="342.0" layoutY="389.0" mnemonicParsing="false" onMouseClicked="#capstoneCheckBtnClick" text="캡스톤 면제 확인">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

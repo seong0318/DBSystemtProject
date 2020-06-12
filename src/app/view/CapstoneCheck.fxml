@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane prefHeight="660.0" prefWidth="990.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.controller.CapstoneCheckController">
+   <children>
+      <Button fx:id="checkBtn" layoutX="387.0" layoutY="316.0" mnemonicParsing="false" onMouseClicked="#checkBtnClick" text="캡스톤 면제 확인">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Button>
+      <TextField fx:id="studentIdText" layoutX="409.0" layoutY="211.0" promptText="학번을 입력하시오." />
+      <Text fontSmoothingType="LCD" layoutX="430.0" layoutY="487.0" strokeType="OUTSIDE" strokeWidth="0.0">
+         <font>
+            <Font size="60.0" />
+         </font>
+      </Text>
+      <Text fx:id="resultText" layoutX="431.0" layoutY="463.0" strokeType="OUTSIDE" strokeWidth="0.0" text="결과">
+         <font>
+            <Font size="64.0" />
+         </font>
+      </Text>
+      <Button fx:id="moveMainPageBtn" layoutX="48.0" layoutY="48.0" mnemonicParsing="false" onMouseClicked="#moveMainPageBtnClick" text="메인 페이지">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Button>
+   </children>
+</AnchorPane>
